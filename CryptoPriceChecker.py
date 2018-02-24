@@ -1,4 +1,4 @@
-import time, json, requests
+import time, json, requests, colors
 
 #BTC
 def bitstamp():
@@ -59,7 +59,9 @@ def cmcBCH():
   CMCBCHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/bitcoin-cash/')
   return CMCBCHTick.json()[0]['price_btc'] 
   
+turns = 0
 while True:
+  
   #BTC
   bitstamplive = float(bitstamp())
   bitfinexlive = float(bitfinex())
@@ -103,12 +105,32 @@ while True:
   DGBBTCavg = ((bittrexdgblive + cmcdgblive) / 2)
   DGBavg = str(round((DGBBTCavg * BTCPrice), 4))
   
-  print("BTC Price: $" + BTCavg)
-  print("BCH Price: $" + BCHavg)
-  print("ETH Price: $" + ETHavg)
-  print("LTC Price: $" + LTCavg)
-  print("DASH Price: $" + DASHavg)
-  print("DOGE Price: $" + Dogeavg)
-  print("DGB Price: $" + DGBavg)
+  
+  avgPrice = [BTCavg, BCHavg, ETHavg, LTCavg, DASHavg, Dogeavg, DGBavg]
+  CoinColor = [colors.black, colors.black, colors.black, colors.black, colors.black, colors.black, colors.black,]
+  
+  if turns >= 1:
+    index = 0
+    while index < 7:
+      if avgPrice[index] > LastPrice[index]:
+        CoinColor[index] = colors.green
+        index += 1
+      elif avgPrice[index] < LastPrice[index]:
+        CoinColor[index] = colors.red
+        index += 1
+      else:
+        CoinColor[index] = colors.black
+        index += 1
+  
+  print(CoinColor[0]("BTC Price: $" + BTCavg))
+  print(CoinColor[1]("BCH Price: $" + BCHavg))
+  print(CoinColor[2]("ETH Price: $" + ETHavg))
+  print(CoinColor[3]("LTC Price: $" + LTCavg))
+  print(CoinColor[4]("DASH Price: $" + DASHavg))
+  print(CoinColor[5]("DOGE Price: $" + Dogeavg))
+  print(CoinColor[6]("DGB Price: $" + DGBavg))
   print("=-=-=-=-=-=-=-=-=-=-=-=")
-  time.sleep(60)
+  
+  LastPrice = [BTCavg, BCHavg, ETHavg, LTCavg, DASHavg, Dogeavg, DGBavg]
+  turns += 1
+  time.sleep(10)
