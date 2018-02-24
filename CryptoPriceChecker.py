@@ -108,6 +108,7 @@ while True:
   
   avgPrice = [BTCavg, BCHavg, ETHavg, LTCavg, DASHavg, Dogeavg, DGBavg]
   CoinColor = [colors.black, colors.black, colors.black, colors.black, colors.black, colors.black, colors.black,]
+  CoinName = ['BTC', 'BCH', 'ETH', 'LTC', 'DASH', 'DOGE', 'DGB']
   
   if turns >= 1:
     index = 0
@@ -122,13 +123,11 @@ while True:
         CoinColor[index] = colors.black
         index += 1
   
-  print(CoinColor[0]("BTC Price: $" + BTCavg))
-  print(CoinColor[1]("BCH Price: $" + BCHavg))
-  print(CoinColor[2]("ETH Price: $" + ETHavg))
-  print(CoinColor[3]("LTC Price: $" + LTCavg))
-  print(CoinColor[4]("DASH Price: $" + DASHavg))
-  print(CoinColor[5]("DOGE Price: $" + Dogeavg))
-  print(CoinColor[6]("DGB Price: $" + DGBavg))
+  if turns >= 0:
+    index = 0
+    while index < 7:
+      print(CoinColor[index](CoinName[index] + ": $" + avgPrice[index]))
+      index += 1
   print("=-=-=-=-=-=-=-=-=-=-=-=")
   
   LastPrice = [BTCavg, BCHavg, ETHavg, LTCavg, DASHavg, Dogeavg, DGBavg]
