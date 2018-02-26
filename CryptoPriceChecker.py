@@ -10,6 +10,57 @@ def bitfinex():
 def coinbase():
   CoinBaseTick = requests.get('https://coinbase.com/api/v1/prices/buy')
   return CoinBaseTick.json()['amount']
+def bittrexBTC():
+  BitTrexBTCTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=USDT-BTC')
+  return BitTrexBTCTick.json()['result'][0]['Last']
+def cmcBTC():
+  CMCBTCTick = requests.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/')
+  return CMCBTCTick.json()[0]['price_usd']
+def krakenBTC():
+    krakenTick = requests.post('https://api.kraken.com/0/public/Ticker',data=json.dumps({"pair":"XXBTZUSD"}),
+        headers={"content-type":"application/json"})
+    return krakenTick.json()['result']['XXBTZUSD']['c'][0]
+  
+#BCH
+def bittrexBCH():
+  BitTrexBCHTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-BCC')
+  return BitTrexBCHTick.json()['result'][0]['Last']
+def cmcBCH():
+  CMCBCHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/bitcoin-cash/')
+  return CMCBCHTick.json()[0]['price_btc']
+def bitfinexBCH(): 
+  BitFinexBCHTick = requests.get("https://api.bitfinex.com/v1/ticker/bchbtc")
+  return BitFinexBCHTick.json()['last_price']
+
+#ETH
+def bittrexETH():
+  BitTrexETHTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-ETH')
+  return BitTrexETHTick.json()['result'][0]['Last']
+def cmcETH():
+  CMCETHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/ethereum/')
+  return CMCETHTick.json()[0]['price_btc'] 
+def bitfinexETH(): 
+  BitFinexETHTick = requests.get("https://api.bitfinex.com/v1/ticker/ETHbtc")
+  return BitFinexETHTick.json()['last_price']
+
+#LTC
+def bittrexLTC():
+  BitTrexLTCTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-LTC')
+  return BitTrexLTCTick.json()['result'][0]['Last']
+def cmcLTC():
+  CMCLTCTick = requests.get('https://api.coinmarketcap.com/v1/ticker/litecoin/')
+  return CMCLTCTick.json()[0]['price_btc'] 
+def bitfinexLTC(): 
+  BitFinexLTCTick = requests.get("https://api.bitfinex.com/v1/ticker/LTCbtc")
+  return BitFinexLTCTick.json()['last_price']
+  
+#DASH
+def bittrexDASH():
+  BitTrexDASHTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-DASH')
+  return BitTrexDASHTick.json()['result'][0]['Last']
+def cmcDASH():
+  CMCDASHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/DASH/')
+  return CMCDASHTick.json()[0]['price_btc']
   
 #Doge
 def bittrexdoge():
@@ -26,65 +77,38 @@ def bittrexdgb():
 def cmcdgb():
   CMCDGBTick = requests.get('https://api.coinmarketcap.com/v1/ticker/digibyte/')
   return CMCDGBTick.json()[0]['price_btc'] 
-  
-#LTC
-def bittrexLTC():
-  BitTrexLTCTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-LTC')
-  return BitTrexLTCTick.json()['result'][0]['Last']
-def cmcLTC():
-  CMCLTCTick = requests.get('https://api.coinmarketcap.com/v1/ticker/litecoin/')
-  return CMCLTCTick.json()[0]['price_btc'] 
-  
-#ETH
-def bittrexETH():
-  BitTrexETHTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-ETH')
-  return BitTrexETHTick.json()['result'][0]['Last']
-def cmcETH():
-  CMCETHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/ethereum/')
-  return CMCETHTick.json()[0]['price_btc'] 
-  
-#DASH
-def bittrexDASH():
-  BitTrexDASHTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-DASH')
-  return BitTrexDASHTick.json()['result'][0]['Last']
-def cmcDASH():
-  CMCDASHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/DASH/')
-  return CMCDASHTick.json()[0]['price_btc'] 
-  
-#BCH
-def bittrexBCH():
-  BitTrexBCHTick = requests.get('https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-BCC')
-  return BitTrexBCHTick.json()['result'][0]['Last']
-def cmcBCH():
-  CMCBCHTick = requests.get('https://api.coinmarketcap.com/v1/ticker/bitcoin-cash/')
-  return CMCBCHTick.json()[0]['price_btc'] 
-  
+
 turns = 0
 while True:
-  
   #BTC
   bitstamplive = float(bitstamp())
   bitfinexlive = float(bitfinex())
   coinbaselive = float(coinbase())
-  BTCPrice = float((bitstamplive + bitfinexlive + coinbaselive) / 3)
+  bittrexBTClive = float(bittrexBTC())
+  cmcBTClive = float(cmcBTC())
+  krakenBTClive = float(krakenBTC())
+  BTCPrice = float((bitstamplive + bitfinexlive + coinbaselive + bittrexBTClive + cmcBTClive + krakenBTClive) / 6)
   BTCavg = str(round((BTCPrice), 2))
   
   #BCH
   bittrexBCHlive = float(bittrexBCH())
   cmcBCHlive = float(cmcBCH())
-  BCHBTCavg = ((bittrexBCHlive + cmcBCHlive) / 2)
+  bitfinexBCHlive = float(bitfinexBCH())
+  BCHBTCavg = ((bittrexBCHlive + cmcBCHlive + bitfinexBCHlive) / 3)
   BCHavg = str(round((BCHBTCavg * BTCPrice), 2))
   
   #ETH
   bittrexETHlive = float(bittrexETH())
   cmcETHlive = float(cmcETH())
-  ETHBTCavg = ((bittrexETHlive + cmcETHlive) / 2)
+  bitfinexETHlive = float(bitfinexETH())
+  ETHBTCavg = ((bittrexETHlive + cmcETHlive + bitfinexETHlive) / 3)
   ETHavg = str(round((ETHBTCavg * BTCPrice), 2))
   
   #LTC
   bittrexLTClive = float(bittrexLTC())
   cmcLTClive = float(cmcLTC())
-  LTCBTCavg = ((bittrexLTClive + cmcLTClive) / 2)
+  bitfinexLTClive = float(bitfinexLTC())
+  LTCBTCavg = ((bittrexLTClive + cmcLTClive + bitfinexLTClive) / 3)
   LTCavg = str(round((LTCBTCavg * BTCPrice), 2))
   
   #DASH
